@@ -16,9 +16,11 @@ Sample of how to record access logs using Laravel's Middleware and Context.
     ```shell
     docker compose up -d
     ```
-5. Install dependencies
+5. Install dependencies and build assets
     ```shell
     docker compose exec app composer install
+    docker compose run --rm node npm install  
+    docker compose run --rm node npm run build   
     ```
 6. Migrate the database
     ```shell
