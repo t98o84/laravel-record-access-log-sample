@@ -39,8 +39,7 @@ class AddInfoToContext
 
         $user = Auth::user();
         Context::when(
-            is_null($user),
-            fn (Repository $context) => $context->addIf('auth', []),
+            !is_null($user),
             fn (Repository $context) => $context->add('auth', [
                 ...Context::get('auth', []),
                 'id' => $user->getAuthIdentifier(),

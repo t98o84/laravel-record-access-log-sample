@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AddInfoToContext;
 use App\Http\Middleware\AssignRequestId;
+use App\Http\Middleware\SaveAccessLog;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([
             AssignRequestId::class,
             AddInfoToContext::class,
+            SaveAccessLog::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

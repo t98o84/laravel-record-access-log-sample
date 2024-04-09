@@ -17,5 +17,4 @@ RUN apt update && apt -y install \
     && sed -i -e "s/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/public/" /etc/apache2/sites-available/000-default.conf \
     && a2enmod rewrite
 
-
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

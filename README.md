@@ -20,4 +20,8 @@ Sample of how to record access logs using Laravel's Middleware and Context.
     ```shell
     docker compose exec app composer install
     ```
-6. Visit `http://localhost`
+6. Migrate the database
+    ```shell
+    docker compose exec app php artisan migrate
+    ```
+7. Visit `http://localhost`
