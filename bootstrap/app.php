@@ -15,11 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append([
-            AssignRequestId::class,
-            AddInfoToContext::class,
-            SaveAccessLog::class,
-        ]);
+        foreach (['web', 'api'] as $group) {
+            $middleware->appendToGroup($group, [
+                AssignRequestId::class,
+                AddInfoToContext::class,
+                SaveAccessLog::class,
+            ]);
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

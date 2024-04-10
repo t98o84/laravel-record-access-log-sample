@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Log\Context\Repository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AddInfoToContext
@@ -36,6 +37,14 @@ class AddInfoToContext
                 'start_time' => $startTime->toIso8601ZuluString('microsecond'),
             ],
         ]);
+
+        Context::when(
+            $request->hasSession(),
+            fn (Repository $context) => $context->add('session', [
+                ...Context::get('session', []),
+                'id' => Hash::make($request->session()->getId()),
+            ]),
+        );
 
         $user = Auth::user();
         Context::when(
