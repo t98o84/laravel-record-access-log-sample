@@ -20,7 +20,11 @@ class AddInfoToContext
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $startTime = CarbonImmutable::now();
+        $startTime = CarbonImmutable::createFromTimestamp(defined('LARAVEL_START')
+            ? LARAVEL_START
+            : $request->server('REQUEST_TIME_FLOAT')
+        );
+
         Context::add([
             'request' => [
                 ...Context::get('request', []),
@@ -31,6 +35,7 @@ class AddInfoToContext
                 'forwarded_for' => $request->header('X-Forwarded-For'),
                 'user_agent' => $request->userAgent(),
                 'query' => $request->query(),
+                'referer' => $request->header('Referer'),
             ],
             'performance' => [
                 ...Context::get('performance', []),
@@ -63,7 +68,6 @@ class AddInfoToContext
                 ...Context::get('performance', []),
                 'end_time' => $endTime->toIso8601ZuluString('microsecond'),
                 'duration_μs' => $startTime->diffInMicroseconds($endTime),
-                'memory_limit' => ini_get('memory_limit'),
                 'memory_peak_usage' => memory_get_peak_usage(),
                 'memory_real_peak_usage' => memory_get_peak_usage(true),
             ],

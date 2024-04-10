@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AddInfoToContext;
+use App\Http\Middleware\AssignIdToGuestUser;
 use App\Http\Middleware\AssignRequestId;
 use App\Http\Middleware\SaveAccessLog;
 use Illuminate\Foundation\Application;
@@ -15,13 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        foreach (['web', 'api'] as $group) {
-            $middleware->appendToGroup($group, [
-                AssignRequestId::class,
-                AddInfoToContext::class,
-                SaveAccessLog::class,
-            ]);
-        }
+        $middleware->appendToGroup('web', [
+            AssignIdToGuestUser::class,
+            AssignRequestId::class,
+            AddInfoToContext::class,
+            SaveAccessLog::class,
+        ]);
+        $middleware->appendToGroup('api', [
+            AssignRequestId::class,
+            AddInfoToContext::class,
+            SaveAccessLog::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
