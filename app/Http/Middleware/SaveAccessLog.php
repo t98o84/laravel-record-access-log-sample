@@ -23,7 +23,11 @@ class SaveAccessLog
     public function terminate(Request $request, Response $response): void
     {
         try {
-            AccessLog::query()->create(['log' => Context::all()]);
+            if(empty($log = Context::all())) {
+                // For redirects
+                return;
+            }
+            AccessLog::query()->create(['log' => $log]);
         } catch (\Throwable) {
         }
     }
