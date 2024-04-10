@@ -28,5 +28,11 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  mail:
+    image: axllent/mailpit
+    ports:
+      - "${MAIL_FORWARD_PORT}:1025"
+      - "${MAIL_WEB_FORWARD_PORT}:8025"
+
 volumes:
   db_data:
