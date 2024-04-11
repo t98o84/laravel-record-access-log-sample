@@ -12,18 +12,22 @@ Sample of how to record access logs using Laravel's Middleware and Context.
    ```shell
    cp .env.example .env
    ```
-4. Start the docker containers
+4. Update the `.env` file 
+   ```shell
+   ANALYTICS_GTM_ID="GTM-XXXXXXXX"
+   ```
+5. Start the docker containers
     ```shell
     docker compose up -d
     ```
-5. Install dependencies and build assets
+6. Install dependencies and build assets
     ```shell
     docker compose exec app composer install
     docker compose run --rm node npm install  
     docker compose run --rm node npm run build   
     ```
-6. Migrate the database
+7. Migrate the database
     ```shell
     docker compose exec app php artisan migrate
     ```
-7. Visit `http://localhost`
+8. Visit `http://localhost`
