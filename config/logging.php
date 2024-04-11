@@ -129,4 +129,10 @@ return [
 
     ],
 
+    'sensitive_fields' => [
+        '_token',
+        'password',
+        'password_confirmation',
+    ],
+
 ];
