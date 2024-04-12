@@ -6,6 +6,7 @@ use App\Models\AccessLog;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class SaveAccessLog
@@ -28,7 +29,13 @@ class SaveAccessLog
                 return;
             }
             AccessLog::query()->create(['log' => $log]);
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code' => $e->getCode(),
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
     }
 }
